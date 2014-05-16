@@ -49,20 +49,20 @@ public class MainActivity extends Activity {
 		context = this;
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(6);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setRequestedOrientation(6);
         
-        WindowManager wm = getWindowManager();
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
+		WindowManager wm = getWindowManager();
+		DisplayMetrics dm = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(dm);
 	    
-	    mainView = new MainView(this);
-	    mainView.setFlingVariables(dm.widthPixels);
-	    mainView.setWillNotDraw(false);
+		mainView = new MainView(this);
+		mainView.setFlingVariables(dm.widthPixels);
+		mainView.setWillNotDraw(false);
 	    RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 	    setContentView(mainView, relativeParams);
 		
-		if(tiles == null) {
+	    if(tiles == null) {
 			tiles = new Tiles();
 	        tiles.calculateTiles(dm.widthPixels, dm.heightPixels);
 		}

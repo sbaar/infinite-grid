@@ -139,19 +139,19 @@ public class TaskFragment extends Fragment {
 
 		//Create and execute the background task.
 	    
-	    int value = getArguments().getInt("type");
+		int value = getArguments().getInt("type");
 	    
-	    //We'll use the stock executor. It's good enough for this purpose
-	    //Call the correct AsyncTask depending on the "type"
-	    if(value == CALLTYPE.ALL_RECORDS.ordinal()) {
-	    		RESTCallTask restCallTask = new RESTCallTask();
-	    		restCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,  CALLTYPE.values()[value]);
-	    }
-	    else if(value == CALLTYPE.IMAGE.ordinal()) {
-	    		ImageCallTask imageCallTask = new ImageCallTask();
-	    		String url = getArguments().getString("url");
-	    		imageCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,  url);
-	    }
+		//We'll use the stock executor. It's good enough for this purpose
+		//Call the correct AsyncTask depending on the "type"
+		if(value == CALLTYPE.ALL_RECORDS.ordinal()) {
+			RESTCallTask restCallTask = new RESTCallTask();
+			restCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,  CALLTYPE.values()[value]);
+		}
+		else if(value == CALLTYPE.IMAGE.ordinal()) {
+			ImageCallTask imageCallTask = new ImageCallTask();
+			String url = getArguments().getString("url");
+			imageCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,  url);
+		}
 	}
 	
 	@Override

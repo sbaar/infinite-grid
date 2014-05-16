@@ -135,12 +135,8 @@ public class Tiles {
 				bitmap = Bitmap.createScaledBitmap(tmp, tileSize.x - borderThickness, tileSize.y - borderThickness, true);
 			}
 			catch(OutOfMemoryError e){
-				tmp.recycle();
-				buffer = null;
 				return null;
 			}
-
-			buffer = null;
 			return bitmap;
 		}
 		catch(IOException IOerror)

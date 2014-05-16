@@ -68,8 +68,8 @@ public class MainView extends RelativeLayout {
 
     		currentPos.x+= distanceX;
     		currentPos.y+= distanceY;
-    	    invalidate();
-    	    return true;
+    		invalidate();
+    		return true;
     	}
 
     	
@@ -85,26 +85,26 @@ public class MainView extends RelativeLayout {
         	yVelocity = 0.0f;
         	xAcceleration = 0.0f;
         	yAcceleration = 0.0f;
-            if(Math.abs(e2.getX() - e1.getX()) > swipeMinDistance && Math.abs(velocityX) > swipeThresholdVelocity) {
-            	xVelocity = velocityX;
-            	xAcceleration = -(xVelocity/Constants.FLING_STOP_TIME);
-            	flinging = true;
+        	if(Math.abs(e2.getX() - e1.getX()) > swipeMinDistance && Math.abs(velocityX) > swipeThresholdVelocity) {
+        		xVelocity = velocityX;
+        		xAcceleration = -(xVelocity/Constants.FLING_STOP_TIME);
+        		flinging = true;
             }
 
-            //Vertical
-            if(Math.abs(e2.getY() - e1.getY()) > swipeMinDistance && Math.abs(velocityY) > swipeThresholdVelocity) {
-            	yVelocity = velocityY;
-            	yAcceleration = -(yVelocity/Constants.FLING_STOP_TIME);
-                flinging = true;
+        	//Vertical
+        	if(Math.abs(e2.getY() - e1.getY()) > swipeMinDistance && Math.abs(velocityY) > swipeThresholdVelocity) {
+        		yVelocity = velocityY;
+        		yAcceleration = -(yVelocity/Constants.FLING_STOP_TIME);
+        		flinging = true;
             }
             
-            //If we're flinging, then start the deceleration
-            if(flinging) {
-            	flingStartTime = System.currentTimeMillis();
-            	prevFlingPos.x = prevFlingPos.y = 0;
-            	invalidate();
-            }
-            return false;
+        	//If we're flinging, then start the deceleration
+        	if(flinging) {
+        		flingStartTime = System.currentTimeMillis();
+        		prevFlingPos.x = prevFlingPos.y = 0;
+        		invalidate();
+        	}
+        	return false;
         }
         
         @Override
@@ -112,8 +112,8 @@ public class MainView extends RelativeLayout {
         	Point press = new Point();
         	press.x = (int)event.getX();
         	press.y = (int)event.getY();
-            MainActivity.tiles.selectTile(press);    //Get which tile was pressed so we can do whatever with it
-            return true;
+        	MainActivity.tiles.selectTile(press);    //Get which tile was pressed so we can do whatever with it
+        	return true;
         }
         
         @Override
@@ -136,11 +136,11 @@ public class MainView extends RelativeLayout {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
+	
 		//Only respond to single touch events
 		if(event.getPointerCount() == 1)
 			gdt.onTouchEvent(event);
-
+	
 		invalidate();  //Only redraw when necessary
 		return true;
 	}

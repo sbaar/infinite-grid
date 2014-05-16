@@ -129,12 +129,12 @@ public enum HTTPCommManager {
 			JSONObject jsonObj = new JSONObject(jsonData);
 			JSONArray entries = jsonObj.getJSONArray(Constants.TAG_RESULTS);
 			for (int i=0; i<entries.length(); i++) {
-                JSONObject entry = entries.getJSONObject(i);
-                JSONObject imageAttributes = entry.getJSONObject(Constants.TAG_IMAGEATTRIBUTES);
-                String imageName = imageAttributes.getString(Constants.TAG_IMAGENAME);
-                imageNames.add(imageName);
-                String url = imageAttributes.getString(Constants.TAG_URL);
-                imageURLs.add(url);
+				JSONObject entry = entries.getJSONObject(i);
+				JSONObject imageAttributes = entry.getJSONObject(Constants.TAG_IMAGEATTRIBUTES);
+				String imageName = imageAttributes.getString(Constants.TAG_IMAGENAME);
+				imageNames.add(imageName);
+				String url = imageAttributes.getString(Constants.TAG_URL);
+				imageURLs.add(url);
 			}
 
 		}

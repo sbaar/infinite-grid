@@ -90,13 +90,12 @@ public class HTTPRequest {
  			urc.setRequestMethod("GET");
  	        urc.setDoInput(true);
  	        urc.connect();
- 			is = urc.getInputStream();
+ 	        is = urc.getInputStream();
 
- 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8") );
- 				String data = null;
- 			    while ((data = reader.readLine()) != null){
- 			    	result+= data;
- 			    }
+ 	        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8") );
+ 	        String data = null;
+ 	        while ((data = reader.readLine()) != null)
+ 	        	result+= data;
 
  			is.close();
  		}
