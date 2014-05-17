@@ -21,10 +21,12 @@ import java.util.HashMap;
 import com.kennethmaffei.infinitegrid.Constants;
 import com.kennethmaffei.infinitegrid.Constants.CALLTYPE;
 
+import DiskLruCache.DiskLruOperations;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -114,6 +116,16 @@ public class TaskFragment extends Fragment {
 
 		@Override
 		protected ImageDescriptor doInBackground(String... params) {
+			String key = (String)params[0];
+			key = key.toLowerCase();
+			key = key.replaceAll("[^a-z0-9]","");
+			Bitmap bitmap = DiskLruOperations.getBitmapFromDiskCache(key);
+			if(bitmap != null) {
+				ImageDescriptor id = new ImageDescriptor();
+			    id.image = bitmap;
+			    id.url = (String)params[0];
+			    return id;
+			}
 			HTTPRequest httpRequest = new HTTPRequest();
 			return httpRequest.getImage(params[0]);
 		}
@@ -125,6 +137,11 @@ public class TaskFragment extends Fragment {
 		
 		@Override
 	    protected void onPostExecute(ImageDescriptor id) {
+			//Write the bitmap to the cache
+			String key = id.url;
+			key = key.toLowerCase();
+			key = key.replaceAll("[^a-z0-9]","");
+			DiskLruOperations.addBitmapToCache(key, id.image);
 			//Fill in our grid
 			HTTPCommManager.INSTANCE.fillGrid(id);
 		}

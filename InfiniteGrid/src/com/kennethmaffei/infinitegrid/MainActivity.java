@@ -16,12 +16,15 @@
 
 package com.kennethmaffei.infinitegrid;
 
-import com.appliedideas.corecompetencies.R;
+import com.appliedideas.infinitegrid.R;
 
+import DiskLruCache.DiskLruCache;
+import DiskLruCache.DiskLruOperations;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.LruCache;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,7 +43,7 @@ public class MainActivity extends Activity {
 	//Make it static so we can instantiate just once
 	static Tiles tiles;
 	MainView mainView;
-	static Context context;
+	public static Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ public class MainActivity extends Activity {
 		WindowManager wm = getWindowManager();
 		DisplayMetrics dm = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(dm);
+		
+		DiskLruOperations.setCacheDir();
 	    
 		mainView = new MainView(this);
 		mainView.setFlingVariables(dm.widthPixels);

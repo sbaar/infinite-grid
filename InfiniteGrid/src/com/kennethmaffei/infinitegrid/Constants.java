@@ -16,10 +16,14 @@
 
 package com.kennethmaffei.infinitegrid;
 
+import java.io.File;
+
+import android.graphics.Bitmap.CompressFormat;
+
+import DiskLruCache.DiskLruCache;
+
 public class Constants {
 	public static enum CALLTYPE {ALL_RECORDS, IMAGE}; //NOTE: We are using ordinal() to access values, so add elements accordingly!
-	
-	public static final String DISK_CACHE_SUBDIR = "artisanspalatecachedir";
 	
 	//HTTP Request strings
 	public static final String RECORD_URL  = "https://api.parse.com/1/classes/DataAttributes";
@@ -52,4 +56,11 @@ public class Constants {
     public static final float BORDER_THICKNESS = .01f;
     public static final float TILE_ASPECT_RATIO = 1.333f;
     public static final int NUM_X_TILES = 6;
+    
+    //Disk LRU Cache
+	public static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
+	public static final String DISK_CACHE_SUBDIR = "apcache";
+	public static final CompressFormat COMPRESS_FORMAT = CompressFormat.JPEG;
+    public static final int COMPRESS_QUALITY = 80;
+    public static final int IO_BUFFER_SIZE = 8 * 1024;
 }
