@@ -31,18 +31,22 @@ import android.graphics.Point;
  */
 public class Tile {
 	
-	private ImageDescriptor imageDescriptor;
+	private RecordDescriptor recordDescriptor;
 
 	Bitmap getThumbnail() {
-		return imageDescriptor.image;
+		return recordDescriptor.image;
 	}
 	
-	void setImageDescriptor(ImageDescriptor imageDescriptor) {
-		this.imageDescriptor = imageDescriptor;
+	void setRecordDescriptor(RecordDescriptor record) {
+		this.recordDescriptor = record;
 	}
 	
 	String getUrl() {
-		return imageDescriptor.url;
+		return recordDescriptor.url;
+	}
+	
+	RecordDescriptor getRecordDescriptor() {
+		return recordDescriptor;
 	}
 	
 	/**
@@ -56,8 +60,8 @@ public class Tile {
 	void draw(Point origin, Canvas canvas, Paint paint, Matrix matrix) {
 		
 		//Draw the image
-		if(imageDescriptor.image != null)
-			canvas.drawBitmap(imageDescriptor.image, origin.x + Tiles.borderThickness/2, origin.y + Tiles.borderThickness/2, paint);
+		if(recordDescriptor.image != null)
+			canvas.drawBitmap(recordDescriptor.image, origin.x + Tiles.borderThickness/2, origin.y + Tiles.borderThickness/2, paint);
 		
 		//Draw borders
 		Matrix defaultMatrix = matrix;

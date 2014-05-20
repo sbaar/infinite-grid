@@ -121,7 +121,7 @@ public class HTTPRequest {
 	 * @param urlString - the url where the image resides
 	 * @return a Bitmap object for the image
 	 */
-	public ImageDescriptor getImage(String urlString) {
+	public Bitmap getImage(String urlString) {
 		Bitmap image = null;
 	    try {
 	        image = BitmapFactory.decodeStream(new URL(urlString).openConnection().getInputStream());
@@ -129,10 +129,7 @@ public class HTTPRequest {
 	    catch (Exception e) {
 	        
 	    }
-	    ImageDescriptor id = new ImageDescriptor();
-	    id.image = image;
-	    id.url = urlString;
-	    return id;
+	    return image;
 	}
 	
 	/**

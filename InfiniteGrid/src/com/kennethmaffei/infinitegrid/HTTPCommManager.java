@@ -90,25 +90,24 @@ public enum HTTPCommManager {
 	 * 
 	 * @param url - the url which we will get data back from
 	 */
-	public void getURL(String url) {
+	public void getURL(RecordDescriptor record) {
 		if(activity == null)
 			return;
 		
 		FragmentManager fm = activity.getFragmentManager();
 		//Use the url as the fragment tag
-		TaskFragment taskFragment = (TaskFragment) fm.findFragmentByTag(url);
+		TaskFragment taskFragment = (TaskFragment) fm.findFragmentByTag(record.url);
 
 		//If the Fragment is non-null, then it is currently being retained across a configuration change.
 		if (taskFragment == null) {
 			taskFragment = new TaskFragment();
 			Bundle args = new Bundle();
 			args.putInt("type", CALLTYPE.IMAGE.ordinal());
-			args.putString("url", url);
+			args.putParcelable("record", record);
 			taskFragment.setArguments(args);
-			fm.beginTransaction().add(taskFragment, url).commit();
+			fm.beginTransaction().add(taskFragment, record.url).commit();
 		}
 	}
-	
 
 	/**
 	 * The fragment calls this when done with the ALL_RECORDS request to parse the JSON string
@@ -121,20 +120,24 @@ public enum HTTPCommManager {
 			return;
 		}
 		
-		ArrayList<String> imageNames = new ArrayList<String>();
-		ArrayList<String> imageURLs = new ArrayList<String>();
+		ArrayList<RecordDescriptor> records = new ArrayList<RecordDescriptor>();
 		
 		//Parse the JSON, which is simple in our case
 		try {
 			JSONObject jsonObj = new JSONObject(jsonData);
 			JSONArray entries = jsonObj.getJSONArray(Constants.TAG_RESULTS);
 			for (int i=0; i<entries.length(); i++) {
+				RecordDescriptor record = new RecordDescriptor();
 				JSONObject entry = entries.getJSONObject(i);
 				JSONObject imageAttributes = entry.getJSONObject(Constants.TAG_IMAGEATTRIBUTES);
-				String imageName = imageAttributes.getString(Constants.TAG_IMAGENAME);
-				imageNames.add(imageName);
 				String url = imageAttributes.getString(Constants.TAG_URL);
-				imageURLs.add(url);
+				String description = entry.getString(Constants.TAG_DESCRIPTION);
+				String link = entry.getString(Constants.TAG_LINK);
+				
+				record.url = url;
+				record.description = description;
+				record.link = link;
+				records.add(record);
 			}
 
 		}
@@ -144,9 +147,9 @@ public enum HTTPCommManager {
 		}
 		
 		//We've got our data, so now spawn all the threads
-		numImageThreads = imageURLs.size();
-		for(String url : imageURLs) {
-			getURL(url);
+		numImageThreads = records.size();
+		for(RecordDescriptor record : records) {
+			getURL(record);
 		}
 	}
 	
@@ -156,9 +159,9 @@ public enum HTTPCommManager {
 	 * 
 	 * @param image - the bitmap to send
 	 */
-	public void fillGrid(ImageDescriptor id) {
-		if(id.image != null)
-			((MainActivity)activity).fillGrid(id);
+	public void fillGrid(RecordDescriptor record) {
+		if(record.image != null)
+			((MainActivity)activity).fillGrid(record);
 		imageCount++;
 		if(imageCount == numImageThreads)
 			retrievalDone = true;

@@ -15,7 +15,7 @@
  */
 
 
-package DiskLruCache;
+package disklrucache;
 
 
 import java.io.Closeable;

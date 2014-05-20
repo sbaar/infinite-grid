@@ -23,6 +23,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import webview.WebViewActivity;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -78,10 +82,10 @@ public class Tiles {
 		//Create an array of tiles for each y position
 		//Add that array to our tiles array
 		Tile t = new Tile();
-		ImageDescriptor id = new ImageDescriptor();
-		id.image = stockThumbnail;
-		id.url = "stock";
-		t.setImageDescriptor(id);
+		RecordDescriptor record = new RecordDescriptor();
+		record.image = stockThumbnail;
+		record.url = "stock";
+		t.setRecordDescriptor(record);
 		allTiles.add(t);
 		for(int i=0; i<numYTiles; i++) {
 			LinkedList<Tile> xTiles = new LinkedList<Tile>();
@@ -156,25 +160,25 @@ public class Tiles {
 	 * 
 	 * @param image - the new image
 	 */
-	public void fillGrid(ImageDescriptor id) {
+	public void fillGrid(RecordDescriptor record) {
 		
-		if(id.image == null)
+		if(record.image == null)
 			return;
 		
 		//If we have this one already, don't add it again
 		for(Tile t: allTiles) {
-			if(t.getUrl().equals(id.url))
+			if(t.getUrl().equals(record.url))
 				return;
 		}
 		
 		Bitmap bitmap = null;
 		
 		try {
-			bitmap = Bitmap.createScaledBitmap(id.image, tileSize.x - borderThickness, tileSize.y - borderThickness, true);
-			id.image = bitmap;
+			bitmap = Bitmap.createScaledBitmap(record.image, tileSize.x - borderThickness, tileSize.y - borderThickness, true);
+			record.image = bitmap;
 		}
 		catch(OutOfMemoryError e){
-			id.image.recycle();
+			record.image.recycle();
 			return;
 		}
 		
@@ -187,10 +191,14 @@ public class Tiles {
 		
 		//Create a new tile
 		Tile tile = new Tile();
-		tile.setImageDescriptor(id);
+		tile.setRecordDescriptor(record);
 		allTiles.add(tile);
 		
+		//If we have more entries than we have tiles, then just add them here and return
 		int size = allTiles.size();
+		if(allTiles.size() > numXTiles*numYTiles)
+			return;
+		
 		int count = 0;
 		int idx;
 		tileXStartIndex.clear();
@@ -235,6 +243,8 @@ public class Tiles {
 		//Note: we have safeties in place in the comm manager to prevent spamming the server.
 		if(t.getThumbnail() == stockThumbnail)
 			HTTPCommManager.INSTANCE.getDBData();
+		else
+			((MainActivity)(MainActivity.context)).transitionToWebview(t.getRecordDescriptor().link);
 	}
 	
 

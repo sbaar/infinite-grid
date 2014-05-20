@@ -16,15 +16,17 @@
 
 package com.kennethmaffei.infinitegrid;
 
+import webview.WebViewActivity;
+
 import com.appliedideas.infinitegrid.R;
 
-import DiskLruCache.DiskLruCache;
-import DiskLruCache.DiskLruOperations;
+import disklrucache.DiskLruOperations;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.DisplayMetrics;
-import android.util.LruCache;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
@@ -89,9 +91,15 @@ public class MainActivity extends Activity {
 	/**
 	 * @param image - a retrieved image that is forwarded to the Tiles object
 	 */
-	public void fillGrid(ImageDescriptor id)
+	public void fillGrid(RecordDescriptor id)
 	{
 		tiles.fillGrid(id);
 		mainView.invalidate();
+	}
+	
+	public void transitionToWebview(String url) {
+		Intent intent = new Intent(MainActivity.context, WebViewActivity.class);
+		intent.putExtra(Constants.WEBVIEW_INTENT_URL, url);
+		startActivity(intent);
 	}
 }

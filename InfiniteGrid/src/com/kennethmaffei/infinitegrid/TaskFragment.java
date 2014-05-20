@@ -17,11 +17,13 @@
 package com.kennethmaffei.infinitegrid;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import com.kennethmaffei.infinitegrid.Constants;
 import com.kennethmaffei.infinitegrid.Constants.CALLTYPE;
 
-import DiskLruCache.DiskLruOperations;
+import disklrucache.DiskLruOperations;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -112,22 +114,23 @@ public class TaskFragment extends Fragment {
 	 * @author Kenneth Maffei
 	 *
 	 */
-	private class ImageCallTask extends AsyncTask<String, Void, ImageDescriptor> {
+	private class ImageCallTask extends AsyncTask<RecordDescriptor, Void, RecordDescriptor> {
 
 		@Override
-		protected ImageDescriptor doInBackground(String... params) {
-			String key = (String)params[0];
-			key = key.toLowerCase();
+		protected RecordDescriptor doInBackground(RecordDescriptor... params) {
+			RecordDescriptor id = (RecordDescriptor)params[0];
+			String key = id.url;
+			key = key.toLowerCase(Locale.US);
 			key = key.replaceAll("[^a-z0-9]","");
 			Bitmap bitmap = DiskLruOperations.getBitmapFromDiskCache(key);
 			if(bitmap != null) {
-				ImageDescriptor id = new ImageDescriptor();
 			    id.image = bitmap;
-			    id.url = (String)params[0];
 			    return id;
 			}
 			HTTPRequest httpRequest = new HTTPRequest();
-			return httpRequest.getImage(params[0]);
+			bitmap = httpRequest.getImage(id.url);
+			id.image = bitmap;
+			return id;
 		}
 		
 		@Override
@@ -136,10 +139,10 @@ public class TaskFragment extends Fragment {
 	    }
 		
 		@Override
-	    protected void onPostExecute(ImageDescriptor id) {
+	    protected void onPostExecute(RecordDescriptor id) {
 			//Write the bitmap to the cache
 			String key = id.url;
-			key = key.toLowerCase();
+			key = key.toLowerCase(Locale.US);
 			key = key.replaceAll("[^a-z0-9]","");
 			DiskLruOperations.addBitmapToCache(key, id.image);
 			//Fill in our grid
@@ -166,8 +169,8 @@ public class TaskFragment extends Fragment {
 		}
 		else if(value == CALLTYPE.IMAGE.ordinal()) {
 			ImageCallTask imageCallTask = new ImageCallTask();
-			String url = getArguments().getString("url");
-			imageCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,  url);
+			RecordDescriptor record = getArguments().getParcelable("record");
+			imageCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,  record);
 		}
 	}
 	

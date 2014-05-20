@@ -1,4 +1,4 @@
-package DiskLruCache;
+package disklrucache;
 
 import java.io.BufferedInputStream;
 import java.io.File;

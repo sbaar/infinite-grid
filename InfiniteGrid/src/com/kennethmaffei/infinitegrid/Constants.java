@@ -16,11 +16,8 @@
 
 package com.kennethmaffei.infinitegrid;
 
-import java.io.File;
-
 import android.graphics.Bitmap.CompressFormat;
 
-import DiskLruCache.DiskLruCache;
 
 public class Constants {
 	public static enum CALLTYPE {ALL_RECORDS, IMAGE}; //NOTE: We are using ordinal() to access values, so add elements accordingly!
@@ -51,6 +48,8 @@ public class Constants {
     public static final String TAG_IMAGEATTRIBUTES = "image";
     public static final String TAG_IMAGENAME = "name";
     public static final String TAG_URL = "url";
+    public static final String TAG_DESCRIPTION = "Description";
+    public static final String TAG_LINK = "link";
     
     //Rendering
     public static final float BORDER_THICKNESS = .01f;
@@ -63,4 +62,7 @@ public class Constants {
 	public static final CompressFormat COMPRESS_FORMAT = CompressFormat.JPEG;
     public static final int COMPRESS_QUALITY = 80;
     public static final int IO_BUFFER_SIZE = 8 * 1024;
+    
+    //Webview constants
+    public static final String WEBVIEW_INTENT_URL = "url";
 }
