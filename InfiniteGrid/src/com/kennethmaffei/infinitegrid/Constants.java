@@ -65,4 +65,9 @@ public class Constants {
     
     //Webview constants
     public static final String WEBVIEW_INTENT_URL = "url";
+    
+    //Persistent Data
+    public static final String PERSISTENT_DATA = "APP_DATA";
+    public static final String JSON_RECORD_STRING = "JSON_RECORD_STRING";
+    public static final String PERSISTENT_DATA_STRING_ERROR = "NO_DATA";
 }

@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -99,10 +100,22 @@ public class TaskFragment extends Fragment {
 			            	}
 			            });
 						alertDialog.show();
+						
+						//Get the cached result, if any
+						SharedPreferences sp = MainActivity.context.getSharedPreferences(Constants.PERSISTENT_DATA, 0);
+						result = sp.getString(Constants.JSON_RECORD_STRING, Constants.PERSISTENT_DATA_STRING_ERROR);
+						if(!result.equals(Constants.PERSISTENT_DATA_STRING_ERROR))
+							HTTPCommManager.INSTANCE.parseAllRecords(result);
 						return;
 					}
 					//Here's where we parse the json
 					HTTPCommManager.INSTANCE.parseAllRecords(result);
+					
+					//Write the results string to persistent storage, in case we can't connect next time
+					SharedPreferences data = MainActivity.context.getSharedPreferences(Constants.PERSISTENT_DATA, 0);
+					SharedPreferences.Editor editor = data.edit();
+					editor.putString(Constants.JSON_RECORD_STRING, result);
+					editor.commit();
 				}
 			}
 		}
