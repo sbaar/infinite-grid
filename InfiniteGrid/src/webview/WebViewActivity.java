@@ -26,6 +26,7 @@ public class WebViewActivity extends Activity {
 		final View mainView = findViewById(android.R.id.content);
 		mainView.setBackgroundColor(Color.TRANSPARENT);
 		
+		//Get the url we are going to through the bundle
 		Bundle bundle = getIntent().getExtras();
 		String url = bundle.getString(Constants.WEBVIEW_INTENT_URL);
 		WebView wv = (WebView) findViewById(R.id.webView1);	
