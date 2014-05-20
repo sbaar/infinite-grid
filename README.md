@@ -9,4 +9,4 @@ The database records and images reside on Parse.com.  The application uses headl
 
 Aside from the grid, the app demonstrates AsyncTasks using fragments, a simple REST GET call and simple JSON parsing.
   
-NOTE: The app does not currently implement an image caching mechanism.
+Images are cached to disk using DiskLruCache found here: https://github.com/JakeWharton/DiskLruCache
